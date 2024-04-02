@@ -1,7 +1,7 @@
 package chess.repository;
 
 import chess.domain.piece.Team;
-import chess.repository.mapper.DomainMapper;
+import chess.repository.mapper.TurnMapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +41,7 @@ public class TurnRepository {
 
             if (resultSet.next()) {
                 String value = resultSet.getString(2);
-                return Optional.of(DomainMapper.mapToTurn(value));
+                return Optional.of(TurnMapper.mapToTurn(value));
             }
         } catch (SQLException e) {
             throw new RuntimeException("턴 조회 과정 중 오류 발생");

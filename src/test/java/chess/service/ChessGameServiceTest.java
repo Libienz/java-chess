@@ -12,7 +12,6 @@ import chess.domain.piece.Piece;
 import chess.domain.piece.Team;
 import chess.domain.position.Position;
 import chess.dto.BoardDto;
-import chess.dto.PiecesDto;
 import chess.dto.RankDto;
 import chess.dto.ScoreStatusDto;
 import chess.fixture.PositionFixtures;
@@ -48,7 +47,7 @@ class ChessGameServiceTest {
         board.put(PositionFixtures.A1, new Pawn(Team.WHITE));
         ChessBoard chessBoard = new ChessBoard(board);
 
-        when(pieceRepository.findPieces()).thenReturn(Optional.of(PiecesDto.from(chessBoard)));
+        when(pieceRepository.findChessBoard()).thenReturn(Optional.of(chessBoard));
         when(turnRepository.findCurrentTurn()).thenReturn(Optional.of(Team.WHITE));
 
         BoardDto boardDto = chessGameService.startChessGame();
@@ -60,7 +59,7 @@ class ChessGameServiceTest {
     @DisplayName("게임 시작 시 이미 진행되고 있는 게임이 없는 경우 새로운 게임이 진행된다")
     @Test
     void should_StartNewGame_When_ThereIsNoGameInProgress() {
-        when(pieceRepository.findPieces()).thenReturn(Optional.empty());
+        when(pieceRepository.findChessBoard()).thenReturn(Optional.empty());
         when(turnRepository.findCurrentTurn()).thenReturn(Optional.empty());
 
         BoardDto boardDto = chessGameService.startChessGame();
@@ -76,7 +75,7 @@ class ChessGameServiceTest {
         board.put(PositionFixtures.A1, new Pawn(Team.WHITE));
         ChessBoard chessBoard = new ChessBoard(board);
 
-        when(pieceRepository.findPieces()).thenReturn(Optional.of(PiecesDto.from(chessBoard)));
+        when(pieceRepository.findChessBoard()).thenReturn(Optional.of(chessBoard));
         when(turnRepository.findCurrentTurn()).thenReturn(Optional.of(Team.WHITE));
         BoardDto boardDto = chessGameService.movePiece(PositionFixtures.A1, PositionFixtures.A2);
         String a2 = boardDto.getBoardSnapShot().get(6).getRank().get(0);
@@ -90,7 +89,7 @@ class ChessGameServiceTest {
         board.put(PositionFixtures.A1, new Pawn(Team.WHITE));
         ChessBoard chessBoard = new ChessBoard(board);
 
-        when(pieceRepository.findPieces()).thenReturn(Optional.of(PiecesDto.from(chessBoard)));
+        when(pieceRepository.findChessBoard()).thenReturn(Optional.of(chessBoard));
         when(turnRepository.findCurrentTurn()).thenReturn(Optional.of(Team.WHITE));
 
         ScoreStatusDto scoreStatusDto = chessGameService.calculateScoreStatus();
@@ -109,7 +108,7 @@ class ChessGameServiceTest {
         board.put(PositionFixtures.A2, new King(Team.BLACK));
         ChessBoard chessBoard = new ChessBoard(board);
 
-        when(pieceRepository.findPieces()).thenReturn(Optional.of(PiecesDto.from(chessBoard)));
+        when(pieceRepository.findChessBoard()).thenReturn(Optional.of(chessBoard));
         when(turnRepository.findCurrentTurn()).thenReturn(Optional.of(Team.WHITE));
 
         ChessGame chessGame = chessGameService.loadChessGame();
@@ -127,7 +126,7 @@ class ChessGameServiceTest {
         board.put(PositionFixtures.A1, new King(Team.BLACK));
         ChessBoard chessBoard = new ChessBoard(board);
 
-        when(pieceRepository.findPieces()).thenReturn(Optional.of(PiecesDto.from(chessBoard)));
+        when(pieceRepository.findChessBoard()).thenReturn(Optional.of(chessBoard));
         when(turnRepository.findCurrentTurn()).thenReturn(Optional.of(Team.WHITE));
 
         boolean chessGameNotEnd = chessGameService.isChessGameNotEnd();

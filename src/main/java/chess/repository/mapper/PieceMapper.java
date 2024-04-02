@@ -9,8 +9,36 @@ import chess.domain.piece.Queen;
 import chess.domain.piece.Rook;
 import chess.domain.piece.Team;
 
-class PieceMapper {
-    Piece mapToPiece(String pieceTypeValue, Team team) {
+public class PieceMapper {
+
+    public static String mapPieceTypeToValue(Piece piece) {
+        if (piece instanceof Pawn) {
+            return "pawn";
+        }
+        if (piece instanceof Rook) {
+            return "rook";
+        }
+        if (piece instanceof Knight) {
+            return "knight";
+        }
+        if (piece instanceof Bishop) {
+            return "bishop";
+        }
+        if (piece instanceof Queen) {
+            return "queen";
+        }
+        if (piece instanceof King) {
+            return "king";
+        }
+        throw new IllegalArgumentException("알 수 없는 피스 타입입니다");
+    }
+
+    public static String mapPieceTeamToValue(Piece piece) {
+        return piece.getTeam().name();
+    }
+
+    public static Piece mapValueToPiece(String pieceTypeValue, String teamValue) {
+        Team team = mapValueToTeam(teamValue);
         if ("pawn".equals(pieceTypeValue)) {
             return new Pawn(team);
         }
@@ -29,6 +57,13 @@ class PieceMapper {
         if ("king".equals(pieceTypeValue)) {
             return new King(team);
         }
-        throw new IllegalArgumentException("Invalid piece type: " + pieceTypeValue);
+        throw new IllegalArgumentException("값을 Piece로 매핑할 수 없습니다 - " + pieceTypeValue + " " + teamValue);
+    }
+
+    private static Team mapValueToTeam(String value) {
+        if (value.equals("WHITE")) {
+            return Team.WHITE;
+        }
+        return Team.BLACK;
     }
 }

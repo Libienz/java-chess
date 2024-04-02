@@ -6,11 +6,9 @@ import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 import chess.domain.position.Position;
 import chess.dto.BoardDto;
-import chess.dto.PiecesDto;
 import chess.dto.ScoreStatusDto;
 import chess.repository.PieceRepository;
 import chess.repository.TurnRepository;
-import chess.repository.mapper.DomainMapper;
 
 public class ChessGameService {
     private final PieceRepository pieceRepository;
@@ -43,9 +41,10 @@ public class ChessGameService {
     }
 
     public ChessGame loadChessGame() {
-        PiecesDto pieces = pieceRepository.findPieces().get();
-        Team currentTurn = turnRepository.findCurrentTurn().get();
-        ChessBoard chessBoard = DomainMapper.mapToBoard(pieces);
+        ChessBoard chessBoard = pieceRepository.findChessBoard()
+                .orElseThrow(() -> new IllegalStateException("진행 중인 체스 게임이 존재하지 않습니다"));
+        Team currentTurn = turnRepository.findCurrentTurn()
+                .orElseThrow(() -> new IllegalStateException("진행 중인 체스 게임이 존재하지 않습니다"));
         return new ChessGame(chessBoard, currentTurn);
     }
 
@@ -62,8 +61,7 @@ public class ChessGameService {
     private void saveChessGame(ChessGame chessGame) {
         deleteSavedChessGame();
         ChessBoard chessBoard = chessGame.getChessBoard();
-        PiecesDto piecesDto = PiecesDto.from(chessBoard);
-        pieceRepository.savePieces(piecesDto);
+        pieceRepository.saveChessBoard(chessBoard);
         turnRepository.saveTurn(chessGame.getTurn());
     }
 
@@ -73,6 +71,6 @@ public class ChessGameService {
     }
 
     private boolean isChessGameInProgress() {
-        return pieceRepository.findPieces().isPresent();
+        return pieceRepository.findChessBoard().isPresent();
     }
 }

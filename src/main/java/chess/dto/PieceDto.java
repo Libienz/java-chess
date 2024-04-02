@@ -2,7 +2,8 @@ package chess.dto;
 
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
-import chess.repository.mapper.ValueMapper;
+import chess.repository.mapper.PieceMapper;
+import chess.repository.mapper.PositionMapper;
 
 public class PieceDto {
     private final String position;
@@ -17,9 +18,9 @@ public class PieceDto {
 
     public static PieceDto of(Piece piece, Position position) {
         return new PieceDto(
-                ValueMapper.mapPositionToString(position),
-                ValueMapper.mapTeamToString(piece.getTeam()),
-                ValueMapper.mapPieceTypeToString(piece));
+                PositionMapper.mapPositionToValue(position),
+                PieceMapper.mapPieceTeamToValue(piece),
+                PieceMapper.mapPieceTypeToValue(piece));
     }
 
     public String getPosition() {

@@ -1,8 +1,6 @@
 package chess.repository;
 
-import chess.domain.board.ChessBoard;
 import chess.repository.entity.PieceEntity;
-import chess.repository.mapper.ChessBoardMapper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,11 +18,9 @@ public class PieceRepository {
         this.connectionManager = connectionManager;
     }
 
-    public void saveChessBoard(ChessBoard chessBoard) {
+    public void savePieces(List<PieceEntity> pieceEntities) {
         try (Connection connection = connectionManager.getConnection()) {
-            chessBoard.getBoard().keySet()
-                    .forEach(position -> savePiece(PieceEntity.of(chessBoard.findPieceByPosition(position), position),
-                            connection));
+            pieceEntities.forEach(piece -> savePiece(piece, connection));
         } catch (SQLException e) {
             throw new RuntimeException("기물 저장 과정 중 오류 발생");
         }
@@ -43,7 +39,7 @@ public class PieceRepository {
         }
     }
 
-    public Optional<ChessBoard> findChessBoard() {
+    public Optional<List<PieceEntity>> findAll() {
         String query = String.format("SELECT * FROM %s", TABLE_NAME);
 
         List<PieceEntity> result = new ArrayList<>();
@@ -60,8 +56,7 @@ public class PieceRepository {
             if (result.isEmpty()) {
                 return Optional.empty();
             }
-            ChessBoard chessBoard = ChessBoardMapper.mapToBoard(result);
-            return Optional.of(chessBoard);
+            return Optional.of(result);
         } catch (SQLException e) {
             throw new RuntimeException("보드 조회 과정 중 오류 발생");
         }

@@ -21,4 +21,11 @@ public class ChessBoardMapper {
 
         return new ChessBoard(positionPiece);
     }
+
+    public static List<PieceEntity> mapToEntities(ChessBoard chessBoard) {
+        Map<Position, Piece> board = chessBoard.getBoard();
+        return board.keySet().stream()
+                .map(position -> PieceEntity.of(chessBoard.findPieceByPosition(position), position))
+                .toList();
+    }
 }

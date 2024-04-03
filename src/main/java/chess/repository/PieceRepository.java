@@ -3,8 +3,7 @@ package chess.repository;
 import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
-import chess.dto.PieceDto;
-import chess.dto.PiecesDto;
+import chess.repository.entity.PieceEntity;
 import chess.repository.mapper.ChessBoardMapper;
 import chess.repository.mapper.PieceMapper;
 import chess.repository.mapper.PositionMapper;
@@ -50,7 +49,7 @@ public class PieceRepository {
     public Optional<ChessBoard> findChessBoard() {
         String query = String.format("SELECT * FROM %s", TABLE_NAME);
 
-        List<PieceDto> result = new ArrayList<>();
+        List<PieceEntity> result = new ArrayList<>();
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement pstmt = connection.prepareStatement(query);
              ResultSet resultSet = pstmt.executeQuery()) {
@@ -59,12 +58,12 @@ public class PieceRepository {
                 String position = resultSet.getString("position");
                 String team = resultSet.getString("team");
                 String type = resultSet.getString("type");
-                result.add(new PieceDto(position, team, type));
+                result.add(new PieceEntity(position, team, type));
             }
             if (result.isEmpty()) {
                 return Optional.empty();
             }
-            ChessBoard chessBoard = ChessBoardMapper.mapToBoard(new PiecesDto(result));
+            ChessBoard chessBoard = ChessBoardMapper.mapToBoard(result);
             return Optional.of(chessBoard);
         } catch (SQLException e) {
             throw new RuntimeException("보드 조회 과정 중 오류 발생");

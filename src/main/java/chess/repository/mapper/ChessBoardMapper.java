@@ -3,19 +3,19 @@ package chess.repository.mapper;
 import chess.domain.board.ChessBoard;
 import chess.domain.piece.Piece;
 import chess.domain.position.Position;
-import chess.dto.PieceDto;
-import chess.dto.PiecesDto;
+import chess.repository.entity.PieceEntity;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ChessBoardMapper {
 
-    public static ChessBoard mapToBoard(PiecesDto piecePlacements) {
+    public static ChessBoard mapToBoard(List<PieceEntity> pieceEntities) {
         Map<Position, Piece> positionPiece = new HashMap<>();
 
-        for (PieceDto pieceDto : piecePlacements.getPieces()) {
-            Position position = PositionMapper.mapToPosition(pieceDto.getPosition());
-            Piece piece = PieceMapper.mapValueToPiece(pieceDto.getType(), pieceDto.getTeam());
+        for (PieceEntity pieceEntity : pieceEntities) {
+            Position position = PositionMapper.mapToPosition(pieceEntity.getPosition());
+            Piece piece = PieceMapper.mapValueToPiece(pieceEntity.getType(), pieceEntity.getTeam());
             positionPiece.put(position, piece);
         }
 

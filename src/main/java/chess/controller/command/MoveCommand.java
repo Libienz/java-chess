@@ -1,8 +1,8 @@
 package chess.controller.command;
 
 import chess.domain.position.Position;
-import chess.dto.BoardDto;
 import chess.service.ChessGameService;
+import chess.service.dto.BoardDto;
 import chess.view.OutputView;
 
 public class MoveCommand implements Command {

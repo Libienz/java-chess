@@ -1,4 +1,4 @@
-package chess.dto;
+package chess.service.dto;
 
 import chess.domain.board.ChessBoard;
 import chess.domain.position.File;

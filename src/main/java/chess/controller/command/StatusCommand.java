@@ -1,7 +1,7 @@
 package chess.controller.command;
 
-import chess.dto.ScoreStatusDto;
 import chess.service.ChessGameService;
+import chess.service.dto.ScoreStatusDto;
 import chess.view.OutputView;
 
 public class StatusCommand implements Command {

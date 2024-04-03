@@ -5,10 +5,10 @@ import chess.domain.board.ChessBoard;
 import chess.domain.piece.Score;
 import chess.domain.piece.Team;
 import chess.domain.position.Position;
-import chess.dto.BoardDto;
-import chess.dto.ScoreStatusDto;
 import chess.repository.PieceRepository;
 import chess.repository.TurnRepository;
+import chess.service.dto.BoardDto;
+import chess.service.dto.ScoreStatusDto;
 
 public class ChessGameService {
     private final PieceRepository pieceRepository;

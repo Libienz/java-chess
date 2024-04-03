@@ -1,7 +1,7 @@
 package chess.controller.command;
 
-import chess.dto.BoardDto;
 import chess.service.ChessGameService;
+import chess.service.dto.BoardDto;
 import chess.view.OutputView;
 
 public class StartCommand implements Command {

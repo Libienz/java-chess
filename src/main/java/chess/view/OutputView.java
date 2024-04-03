@@ -5,9 +5,9 @@ import static chess.view.CommandParser.MOVE;
 import static chess.view.CommandParser.START;
 import static chess.view.CommandParser.STATUS;
 
-import chess.dto.BoardDto;
-import chess.dto.RankDto;
-import chess.dto.ScoreStatusDto;
+import chess.service.dto.BoardDto;
+import chess.service.dto.RankDto;
+import chess.service.dto.ScoreStatusDto;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
